@@ -45,33 +45,44 @@ class Calculator:
         for (text, row, col) in buttons:
             button = tk.Button(self.root, text=text, width=4, height=2, command = lambda t = text: self.on_button_click(t))
             button.grid(row=row, column=col, sticky='nsew')
+            button.bind('<Enter>', self.on_enter)
+            button.bind('<Leave>', self.on_leave)
 
         clear_all_button = tk.Button(self.root, text='AC', width=4, height=2, command = self.clear)
         clear_all_button.grid(row=1, column=4, sticky='nsew')
+        self.add_hover_effect(clear_all_button)
 
         clear_last_button = tk.Button(self.root, text='CE', width=4, height=2, command = self.clear_last)
         clear_last_button.grid(row=1, column=3, sticky='nsew')
+        self.add_hover_effect(clear_last_button)
 
         l_bracket_button = tk.Button(self.root, text='(', width=4, height=2, command = lambda: self.on_button_click('('))
         l_bracket_button.grid(row=1, column=1, sticky='nsew')
+        self.add_hover_effect(l_bracket_button)
 
         r_bracket_button = tk.Button(self.root, text=')', width=4, height=2, command=lambda: self.on_button_click(')'))
         r_bracket_button.grid(row=1, column=2, sticky='nsew')
+        self.add_hover_effect(r_bracket_button)
 
         percent_button = tk.Button(self.root, text='%', width=4, height=2, command=lambda: self.on_button_click('%'))
         percent_button.grid(row=1, column=0, sticky='nsew')
+        self.add_hover_effect(percent_button)
 
         ln_button = tk.Button(self.root, text='ln', width=4, height=2, command=self.calculate_ln)
         ln_button.grid(row=2, column=0, sticky='nsew')
+        self.add_hover_effect(ln_button)
 
         log_button = tk.Button(self.root, text='log', width=4, height=2, command=self.calculate_log)
         log_button.grid(row=3, column=0, sticky='nsew')
+        self.add_hover_effect(log_button)
 
         sqrt_button = tk.Button(self.root, text='√', width=4, height=2, command=self.calculate_sqrt)
         sqrt_button.grid(row=4, column=0, sticky='nsew')
+        self.add_hover_effect(sqrt_button)
 
         power_button = tk.Button(self.root, text='xʸ', width=4, height=2, command=lambda: self.on_button_click('^'))
         power_button.grid(row=5, column=0, sticky='nsew')
+        self.add_hover_effect(power_button)
 
     def on_button_click(self, char):
         current = self.result_var.get()
@@ -145,6 +156,18 @@ class Calculator:
             self.result_var.set(str(result))
         except:
             self.result_var.set("Error")
+
+    # przy najechaniu myszką zmiana koloru przycisku
+    def on_enter(self, event):
+        event.widget['background'] = 'lightgray'
+
+    # z powrotem na domyślny kolor
+    def on_leave(self, event):
+        event.widget['background'] = 'SystemButtonFace'
+
+    def add_hover_effect(self, button):
+        button.bind("<Enter>", self.on_enter)
+        button.bind("<Leave>", self.on_leave)
 
 if __name__ == '__main__':
     root = tk.Tk()
